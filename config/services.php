@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'tushare' => [
+        'token' => env('TUSHARE_TOKEN'),
+        'base_url' => 'http://api.tushare.pro',
+    ],
+
 ];

@@ -18,8 +18,13 @@ import { ChevronsUpDown } from 'lucide-react';
 
 export function NavUser() {
     const { auth } = usePage<SharedData>().props;
+    console.log('%c [ auth ]-21', 'font-size:13px; background:pink; color:#bf2c9f;', auth)
     const { state } = useSidebar();
     const isMobile = useIsMobile();
+
+    if(!auth.user) {
+        return null;
+    }
 
     return (
         <SidebarMenu>
