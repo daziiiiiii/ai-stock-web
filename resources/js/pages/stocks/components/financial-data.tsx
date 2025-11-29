@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
 import { ComposedChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Line, ResponsiveContainer } from 'recharts';
 import { getChangeColor } from './utils';
 
@@ -261,7 +262,6 @@ export default function FinancialData({ financials }: FinancialDataProps) {
                                     <TableHead>毛利率</TableHead>
                                     <TableHead>净利率</TableHead>
                                     <TableHead>ROE</TableHead>
-                                    <TableHead>ROA</TableHead>
                                     <TableHead>资产负债率</TableHead>
                                     <TableHead>流动比率</TableHead>
                                     <TableHead>速动比率</TableHead>
@@ -271,16 +271,31 @@ export default function FinancialData({ financials }: FinancialDataProps) {
                             </TableHeader>
                             <TableBody>
                                 {financials.map((financial, index) => (
-                                    <TableRow key={index}>
+                                    <TableRow key={index} className={
+                                        financial.report_period === 'annual' ? 'bg-blue-50 hover:bg-blue-100' : ''
+                                    }>
                                         <TableCell className="font-medium whitespace-nowrap">
                                             {financial.report_date} ({financial.report_period})
+                                            {index === 0 && (
+                                                <Badge variant="outline" className="ml-2 bg-green-100 text-green-800 border-green-200">
+                                                    最新
+                                                </Badge>
+                                            )}
+                                            {financial.report_period === 'annual' && (
+                                                <Badge variant="outline" className="ml-2 bg-blue-100 text-blue-800 border-blue-200">
+                                                    年报
+                                                </Badge>
+                                            )}
                                         </TableCell>
                                         <TableCell>{financial.eps || '-'}</TableCell>
                                         <TableCell>{financial.dt_eps || '-'}</TableCell>
                                         <TableCell>{((financial.grossprofit_margin || 0))}%</TableCell>
                                         <TableCell>{((financial.netprofit_margin || 0))}%</TableCell>
-                                        <TableCell>{((financial.roe || 0))}%</TableCell>
-                                        <TableCell>{((financial.roa || 0))}%</TableCell>
+                                        <TableCell className={
+                                            (financial.roe || 0) > 15 ? 'bg-green-100 font-semibold text-green-800' : ''
+                                        }>
+                                            {((financial.roe || 0))}%
+                                        </TableCell>
                                         <TableCell>{((financial.debt_to_assets || 0))}%</TableCell>
                                         <TableCell>{financial.current_ratio || '-'}</TableCell>
                                         <TableCell>{financial.quick_ratio || '-'}</TableCell>
