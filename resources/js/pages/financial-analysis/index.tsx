@@ -99,15 +99,15 @@ export default function FinancialAnalysis({ stocks, filters, remaining_queries, 
 
     const formatNumber = (num: number) => {
         if (num >= 100000000) {
-            return (num / 100000000).toFixed(2) + '亿';
+            return (num / 100000000) + '亿';
         } else if (num >= 10000) {
-            return (num / 10000).toFixed(2) + '万';
+            return (num / 10000) + '万';
         }
-        return num.toFixed(2);
+        return num;
     };
 
     const formatPercent = (value: number) => {
-        return (value * 100).toFixed(2) + '%';
+        return (value ) + '%';
     };
 
     return (
@@ -337,7 +337,7 @@ export default function FinancialAnalysis({ stocks, filters, remaining_queries, 
                                 <div className="text-center">
                                     <p className="text-sm text-muted-foreground">平均PE</p>
                                     <p className="text-2xl font-bold text-purple-600">
-                                        {(stocks.reduce((sum, stock) => sum + (stock.latest_financial?.pe_ratio || 0), 0) / stocks.length).toFixed(2)}
+                                        {(stocks.reduce((sum, stock) => sum + (stock.latest_financial?.pe_ratio || 0), 0) / stocks.length)}
                                     </p>
                                 </div>
                                 <div className="text-center">
@@ -410,10 +410,10 @@ export default function FinancialAnalysis({ stocks, filters, remaining_queries, 
                                                     {stock.latest_financial?.net_margin ? formatPercent(stock.latest_financial.net_margin) : '-'}
                                                 </TableCell>
                                                 <TableCell className="text-right">
-                                                    {stock.latest_financial?.pe_ratio?.toFixed(2) || '-'}
+                                                    {stock.latest_financial?.pe_ratio || '-'}
                                                 </TableCell>
                                                 <TableCell className="text-right">
-                                                    {stock.latest_financial?.pb_ratio?.toFixed(2) || '-'}
+                                                    {stock.latest_financial?.pb_ratio || '-'}
                                                 </TableCell>
                                                 <TableCell className="text-right">
                                                     {stock.latest_financial?.revenue ? formatNumber(stock.latest_financial.revenue) : '-'}

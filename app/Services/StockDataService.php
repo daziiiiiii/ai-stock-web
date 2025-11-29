@@ -70,7 +70,7 @@ class StockDataService
     {
         $cacheKey = "stock_history_{$symbol}_{$period}_{$limit}";
 
-        return Cache::remember($cacheKey, 3600, function () use ($symbol, $period, $limit) {
+        // return Cache::remember($cacheKey, 3600, function () use ($symbol, $period, $limit) {
             $stock = Stock::where('symbol', $symbol)->first();
             if (!$stock) {
                 return [];
@@ -94,7 +94,7 @@ class StockDataService
                     ];
                 })
                 ->toArray();
-        });
+        // });
     }
 
     /**
@@ -110,36 +110,50 @@ class StockDataService
                 return [];
             }
 
-            return $stock->financialData()
-                ->where('report_period', $period)
+            return $stock->financialIndicators()
+                // ->where('report_period', $period)
                 ->orderBy('report_date', 'desc')
                 ->limit($limit)
                 ->get()
                 ->map(function ($item) {
                     return [
-                        'report_date' => $item->report_date->format('Y-m-d'),
+                        'report_date' => $item->report_date,
                         'report_period' => $item->report_period,
-                        'revenue' => $item->revenue,
-                        'net_income' => $item->net_income,
-                        'gross_profit' => $item->gross_profit,
+                        'ann_date' => $item->ann_date,
+                        'end_date' => $item->end_date,
+                        'eps' => $item->eps,
+                        'dt_eps' => $item->dt_eps,
+                        'total_revenue_ps' => $item->total_revenue_ps,
+                        'revenue_ps' => $item->revenue_ps,
                         'gross_margin' => $item->gross_margin,
-                        'net_margin' => $item->net_margin,
-                        'roe' => $item->roe,
-                        'roa' => $item->roa,
-                        'debt_ratio' => $item->debt_ratio,
                         'current_ratio' => $item->current_ratio,
                         'quick_ratio' => $item->quick_ratio,
-                        'eps' => $item->eps,
-                        'pe_ratio' => $item->pe_ratio,
-                        'pb_ratio' => $item->pb_ratio,
-                        'ps_ratio' => $item->ps_ratio,
-                        'dividend_yield' => $item->dividend_yield,
-                        'peg_ratio' => $item->peg_ratio,
-                        'operating_cash_flow' => $item->operating_cash_flow,
-                        'investing_cash_flow' => $item->investing_cash_flow,
-                        'financing_cash_flow' => $item->financing_cash_flow,
-                        'financial_health_score' => $item->financial_health_score,
-                        'financial_health_grade' => $item->financial_health_grade,
+                        'cash_ratio' => $item->cash_ratio,
+                        'ar_turn' => $item->ar_turn,
+                        'assets_turn' => $item->assets_turn,
+                        'op_income' => $item->op_income,
+                        'ebit' => $item->ebit,
+                        'ebitda' => $item->ebitda,
+                        'fcff' => $item->fcff,
+                        'fcfe' => $item->fcfe,
+                        'bps' => $item->bps,
+                        'ocfps' => $item->ocfps,
+                        'cfps' => $item->cfps,
+                        'ebit_ps' => $item->ebit_ps,
+                        'fcff_ps' => $item->fcff_ps,
+                        'fcfe_ps' => $item->fcfe_ps,
+                        'netprofit_margin' => $item->netprofit_margin,
+                        'grossprofit_margin' => $item->grossprofit_margin,
+                        'roe' => $item->roe,
+                        'roa' => $item->roa,
+                        'debt_to_assets' => $item->debt_to_assets,
+                        'roa_yearly' => $item->roa_yearly,
+                        'roe_yearly' => $item->roe_yearly,
+                        'basic_eps_yoy' => $item->basic_eps_yoy,
+                        'dt_eps_yoy' => $item->dt_eps_yoy,
+                        'netprofit_yoy' => $item->netprofit_yoy,
+                        'tr_yoy' => $item->tr_yoy,
+                        'or_yoy' => $item->or_yoy,
                     ];
                 })
                 ->toArray();
@@ -305,7 +319,7 @@ class StockDataService
             $highestHigh = max(array_slice($highs, $i - 8, 9));
             $lowestLow = min(array_slice($lows, $i - 8, 9));
             
-            $rsv = ($closes[$i] - $lowestLow) / ($highestHigh - $lowestLow) * 100;
+            $rsv = ($closes[$i] - $lowestLow) / ($highestHigh - $lowestLow) ;
             $k[] = round(($rsv + (isset($k[$i-1]) ? $k[$i-1] * 2 : 50)) / 3, 2);
             $d[] = round(($k[$i] + (isset($d[$i-1]) ? $d[$i-1] * 2 : 50)) / 3, 2);
             $j[] = round(3 * $k[$i] - 2 * $d[$i], 2);

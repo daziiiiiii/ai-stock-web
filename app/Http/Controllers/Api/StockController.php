@@ -109,7 +109,7 @@ class StockController extends Controller
     public function financials(Request $request, string $symbol)
     {
         $period = $request->get('period', 'quarter');
-        $limit = $request->get('limit', 8);
+        $limit = $request->get('limit', 20);
 
         $financialData = $this->stockDataService->getFinancialData($symbol, $period, $limit);
 

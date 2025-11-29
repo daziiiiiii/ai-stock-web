@@ -94,7 +94,7 @@ class IncomeStatement extends Model
      */
     public function getGrossMarginPercentAttribute(): string
     {
-        return number_format($this->gross_margin * 100, 2) . '%';
+        return number_format($this->gross_margin , 2) . '%';
     }
 
     /**
@@ -102,6 +102,6 @@ class IncomeStatement extends Model
      */
     public function getNetMarginPercentAttribute(): string
     {
-        return number_format($this->net_margin * 100, 2) . '%';
+        return number_format($this->net_margin , 2) . '%';
     }
 }

@@ -105,6 +105,6 @@ class BalanceSheet extends Model
      */
     public function getDebtRatioPercentAttribute(): string
     {
-        return number_format($this->debt_ratio * 100, 2) . '%';
+        return number_format($this->debt_ratio , 2) . '%';
     }
 }

@@ -103,15 +103,15 @@ export default function StocksIndex({ stocks, filters, remaining_queries, daily_
     };
 
     const formatPrice = (price: number) => {
-        return price.toFixed(2);
+        return price;
     };
 
     const formatChange = (change: number) => {
-        return change > 0 ? `+${change.toFixed(2)}` : change.toFixed(2);
+        return change > 0 ? `+${change}` : change;
     };
 
     const formatChangePercent = (percent: number) => {
-        return percent > 0 ? `+${percent.toFixed(2)}%` : `${percent.toFixed(2)}%`;
+        return percent > 0 ? `+${percent}%` : `${percent}%`;
     };
 
     return (

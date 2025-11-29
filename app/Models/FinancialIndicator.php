@@ -256,7 +256,7 @@ class FinancialIndicator extends Model
      */
     public function getRoePercentAttribute(): string
     {
-        return number_format($this->roe * 100, 2) . '%';
+        return number_format($this->roe , 2) . '%';
     }
 
     /**
@@ -264,7 +264,7 @@ class FinancialIndicator extends Model
      */
     public function getGrossMarginPercentAttribute(): string
     {
-        return number_format($this->gross_margin * 100, 2) . '%';
+        return number_format($this->gross_margin , 2) . '%';
     }
 
     /**
@@ -272,7 +272,7 @@ class FinancialIndicator extends Model
      */
     public function getNetMarginPercentAttribute(): string
     {
-        return number_format($this->net_margin * 100, 2) . '%';
+        return number_format($this->net_margin , 2) . '%';
     }
 
     /**
@@ -280,6 +280,6 @@ class FinancialIndicator extends Model
      */
     public function getDividendYieldPercentAttribute(): string
     {
-        return number_format($this->dividend_yield * 100, 2) . '%';
+        return number_format($this->dividend_yield , 2) . '%';
     }
 }

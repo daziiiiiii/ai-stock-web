@@ -121,7 +121,7 @@ class FinancialAnalysisController extends Controller
 
         return response()->json([
             'data' => [
-                'financial_data' => $financialData,
+                'financial_indicators' => $financialData,
                 'trends' => $trends,
             ]
         ]);
@@ -143,21 +143,21 @@ class FinancialAnalysisController extends Controller
 
         // 获取行业内的股票财务数据
         $industryData = FinancialData::select([
-                'financial_data.*',
+                'financial_indicators.*',
                 'stocks.symbol',
                 'stocks.name',
                 'stocks.industry'
             ])
-            ->join('stocks', 'financial_data.stock_id', '=', 'stocks.id')
+            ->join('stocks', 'financial_indicators.stock_id', '=', 'stocks.id')
             ->where('stocks.industry', $industry)
-            ->where('financial_data.report_date', function ($query) {
+            ->where('financial_indicators.report_date', function ($query) {
                 $query->select('report_date')
-                    ->from('financial_data as fd2')
-                    ->whereColumn('fd2.stock_id', 'financial_data.stock_id')
+                    ->from('financial_indicators as fd2')
+                    ->whereColumn('fd2.stock_id', 'financial_indicators.stock_id')
                     ->orderBy('report_date', 'desc')
                     ->limit(1);
             })
-            ->orderBy("financial_data.{$metric}", 'desc')
+            ->orderBy("financial_indicators.{$metric}", 'desc')
             ->limit(20)
             ->get();
 
@@ -207,7 +207,7 @@ class FinancialAnalysisController extends Controller
         return response()->json([
             'data' => [
                 'health_score' => $healthScore,
-                'financial_data' => $financialData,
+                'financial_indicators' => $financialData,
             ]
         ]);
     }
@@ -221,7 +221,7 @@ class FinancialAnalysisController extends Controller
             return $current > 0 ? 100 : 0;
         }
 
-        return (($current - $previous) / abs($previous)) * 100;
+        return (($current - $previous) / abs($previous)) ;
     }
 
     /**
